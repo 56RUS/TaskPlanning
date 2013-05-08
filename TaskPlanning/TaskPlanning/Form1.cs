@@ -533,8 +533,15 @@ namespace TaskPlanning
             else
                 selectedRow = dataGridViewDataFromDB.CurrentRow.Index;  // Получаю индекс выбранной строки
 
+
+            /*
             numberColumnOwnerInDataGrid = getColumnNumberOnColumnNameInDataGrid("Owner");
             numberColumnReporterInDataGrid = getColumnNumberOnColumnNameInDataGrid("Reporter");
+                */
+
+            numberColumnOwnerInDataGrid = getColumnNumberOnColumnNameInDataGrid(myDB.nameColumnsMainTable[(int)enumNamesColumnsMainTable.Owner]);
+            numberColumnReporterInDataGrid = getColumnNumberOnColumnNameInDataGrid(myDB.nameColumnsMainTable[(int)enumNamesColumnsMainTable.Reporter]);
+
             if ((numberColumnOwnerInDataGrid < 0) || (numberColumnReporterInDataGrid < 0) || (selectedRow < 0))
             {
                 MessageBox.Show("File 'Form1.cs' method 'checkCanUserEditSelectedRow'.\n'numberOwnerInArray' = " + numberColumnOwnerInDataGrid.ToString() +
@@ -1258,7 +1265,7 @@ namespace TaskPlanning
             if (dataGridViewDataFromDB.Columns.Contains(name))
                 number = dataGridViewDataFromDB.Columns[name].Index;
             else
-                MessageBox.Show("File 'Form1.cs' method 'getColumnNumberOnColumnName'.\n" + "Can't found column with name '" + name + "' in DataGrid.", "Runtime error!");
+                MessageBox.Show("File 'Form1.cs' method 'getColumnNumberOnColumnNameInDataGrid'.\n" + "Can't found column with name '" + name + "' in DataGrid.", "Runtime error!");
 
             return number;
         }

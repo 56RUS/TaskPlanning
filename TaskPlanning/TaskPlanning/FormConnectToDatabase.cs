@@ -12,56 +12,56 @@ namespace TaskPlanning
 {
     public partial class FormConnectToDatabase : Form
     {
-        private workWithDbClass myDBConnect;
+        private workWithDbClass myDBConnect;        // Переменная для работы с БД
+        private RegistryKey myRegistryKey;          // Переменная для работы с реестром (хранятся настройки подключения к БД)
 
-        private RegistryKey myRegistryKey;
 
         public FormConnectToDatabase()
         {
             InitializeComponent();
 
-
+            // Инициализирую ключ реестра, где хранятся настройки
             myRegistryKey = Registry.CurrentUser.OpenSubKey("Software", true);
             myRegistryKey = myRegistryKey.CreateSubKey("TaskPlanningUserSettings\\ConnectToDBSettings");
-
-
-            
-
-            //setTextInDBTextfields();
         }
 
+        // Обработчик нажатия кнопки "Connect"
         private void buttonDBConnect_Click(object sender, EventArgs e)
         {
-            connectToDb();
+            connectToDb();      // Подключаюсь к БД
         }
 
+        // Обработчик нажатия кнопки "Cancel"
         private void buttonCancel_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.Cancel;
         }
 
+        // Метод, выполняющий подключение к БД
         private void connectToDb()
         {
-            if ((textBoxDBHost.Text == "") || (textBoxDBName.Text == "") || (textBoxDBUser.Text == ""))// || (textBoxDBUserPswd.Text == ""))
+            // Если пусто одно из полей, которые должны быть заполнены
+            if ((textBoxDBHost.Text == "") || (textBoxDBName.Text == "") || (textBoxDBUser.Text == ""))
             {
                 MessageBox.Show("Some required fields are empty! Please, enter data in this fields.", "Attention!");
-
                 return;
             }
 
+            // Из текстовых полей беру параметры подключения к БД
             myDBConnect.dbHost = textBoxDBHost.Text;
             myDBConnect.dbName = textBoxDBName.Text;
             myDBConnect.dbUser = textBoxDBUser.Text;
             myDBConnect.dbUserPassword = textBoxDBUserPswd.Text;
 
+            // Если подключение к БД отсутствует
             if (myDBConnect.myConnection.State == System.Data.ConnectionState.Closed)
             {
-                myDBConnect.connectToDB();
+                myDBConnect.connectToDB();      // Подключаюсь к БД
 
+                // Если успешно подключился к БД
                 if (myDBConnect.myConnection.State == System.Data.ConnectionState.Open)
                 {
-                    writeUserSettings();
-
+                    writeUserSettings();                // Сохраняю настройки подключения к БД
                     DialogResult = DialogResult.OK;
                 }
             }
@@ -71,23 +71,13 @@ namespace TaskPlanning
             }
         }
 
-        /*
-        private void setTextInDBTextfields()
-        {
-            //textBoxDBHost.Text = "192.168.92.5";
-            textBoxDBHost.Text = "localhost";
-            textBoxDBName.Text = "TaskPlanning";
-            //textBoxDBUser.Text = "DBuser";
-            textBoxDBUser.Text = "root";
-            textBoxDBUserPswd.Text = "ledevop";
-        }
-        */
-
+        // Инициализирую указатель на класс для работы с БД
         public void initialiseDB(workWithDbClass DB)
         {
             myDBConnect = DB;
         }
 
+        // Читаю из реестра настройки подключения к БД
         private void readUserSettings()
         {
             string checkboxStateString = "";
@@ -104,9 +94,6 @@ namespace TaskPlanning
                     checkBoxRememberMe.Checked = true;
                 else
                     checkBoxRememberMe.Checked = false;
-
-
-                //textBoxDBUserPswd.Text = (string)myRegistryKey.GetValue("DbPassword", "");
             }
             catch (Exception ex)
             {
@@ -114,6 +101,7 @@ namespace TaskPlanning
             }
         }
 
+        //Записываю в реестр настройки подключения к БД
         private void writeUserSettings()
         {
             try
@@ -134,17 +122,18 @@ namespace TaskPlanning
             }
         }
 
+        // Событие, возникающие при отображении формы
         private void FormConnectToDatabase_Shown(object sender, EventArgs e)
         {
-            readUserSettings();
+            readUserSettings();     // Читаю настройки подключения к БД
         }
 
+        // Событие, возникающие при нажатии любой клавиши
         private void FormConnectToDatabase_KeyPress(object sender, KeyPressEventArgs e)
         {
+            // Если нажата клавиша "Enter" (на любом элементе формы), то пытаюсь подключиться к БД
             if (e.KeyChar == (char)Keys.Enter)
                 connectToDb();
         }
-
-        
     }
 }

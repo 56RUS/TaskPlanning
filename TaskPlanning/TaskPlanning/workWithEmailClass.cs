@@ -29,8 +29,6 @@ namespace TaskPlanning
         private string[] emailAddresesToSendsAllTasks = { };                        // Список адресов, на которые отправляются ВСЕ письма (на адреса, указанные в данном массиве, всегда будут отправляться все письма)
         private string emailLoginName = "OctavianTaskPlanningNotifier@gmail.com";   // Логин почтового акаунта
         private string emailPassword = "Octavian_Pass_56_w0rd_Notifier";            // Пароль почтового акаунта
-        //private string emailLoginName = "r.hakimov@octavianonline.com";
-        //private string emailPassword = "cbhtyei56";
         private List<structEmailMessageProperties> listEmailMessages;               // Список отправляемых писем (письма выстраиваются в очередь)
         private MailMessage myMailMessage;                                          // Через эту переменную отправляется каждое письмо
         private SmtpClient mySmtpClient;                                            // SMTP, используемый при отправлении письма

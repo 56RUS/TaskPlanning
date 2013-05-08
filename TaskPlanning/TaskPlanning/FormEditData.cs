@@ -424,6 +424,9 @@ namespace TaskPlanning
                                 comboBoxCells[count].cell.Items.Add(currentTable.listValues[i][numberColumnName].ToString());
                         }
 
+
+
+                        /*
                         try
                         {
                             numberColumnInDataGrid = dataGridViewAddData.Columns[comboBoxCells[count].name].Index;
@@ -435,6 +438,18 @@ namespace TaskPlanning
 
                             return;
                         }
+                        */
+
+                        numberColumnInDataGrid = getColumnNumberOnColumnNameInDataGrid(comboBoxCells[count].name);
+                        if (numberColumnInDataGrid < 0)
+                        {
+                            MessageBox.Show("File 'FormEditData.cs' method 'setCellTypesDataGrid'.\n" + "'numberColumnInDataGrid' = " + numberColumnInDataGrid.ToString(), "Runtime error!");
+                            return;
+                        }
+
+
+
+
 
                         comboBoxCells[count].cell.Value = dataGridViewAddData.Rows[0].Cells[numberColumnInDataGrid].Value;
                         // Присваиваю 0 строке numberColumnInDataGrid столбцу объекта DataGridView созданную ячейку ComboBoxCell
@@ -867,6 +882,7 @@ namespace TaskPlanning
         {
             int number = -1;
 
+            /*
             try
             {
                 number = dataGridViewAddData.Columns[name].Index;
@@ -875,6 +891,13 @@ namespace TaskPlanning
             {
                 MessageBox.Show("File 'FormEditData.cs' method 'getColumnNumberOnColumnName'.\n" + "Can't found column with name '" + name + "' in DataGrid.\n\n" + ex.Message, "Runtime error!");
             }
+            */
+
+
+            if (dataGridViewAddData.Columns.Contains(name))
+                number = dataGridViewAddData.Columns[name].Index;
+            else
+                MessageBox.Show("File 'FormEditData.cs' method 'getColumnNumberOnColumnNameInDataGrid'.\n" + "Can't found column with name '" + name + "' in DataGrid.", "Runtime error!");
 
 
             return number;

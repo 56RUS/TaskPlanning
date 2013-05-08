@@ -21,3 +21,13 @@ C:\c#\TaskPlanning\TaskPlanning\obj\x86\Debug\GenerateResource-ResGen.read.1.tlo
 C:\c#\TaskPlanning\TaskPlanning\obj\x86\Debug\GenerateResource-ResGen.write.1.tlog
 E:\C#\C# projects\TaskPlanning\TaskPlanning\obj\x86\Debug\TaskPlanning.FormConnectToDatabase.resources
 C:\c#\TaskPlanning\TaskPlanning\obj\x86\Debug\TaskPlanning.FormConnectToDatabase.resources
+E:\Develop projects\C#\TaskPlanning\TaskPlanning\TaskPlanning\bin\Debug\TaskPlanning.exe
+E:\Develop projects\C#\TaskPlanning\TaskPlanning\TaskPlanning\bin\Debug\TaskPlanning.pdb
+E:\Develop projects\C#\TaskPlanning\TaskPlanning\TaskPlanning\obj\x86\Debug\TaskPlanning.csprojResolveAssemblyReference.cache
+E:\Develop projects\C#\TaskPlanning\TaskPlanning\TaskPlanning\obj\x86\Debug\TaskPlanning.Form1.resources
+E:\Develop projects\C#\TaskPlanning\TaskPlanning\TaskPlanning\obj\x86\Debug\TaskPlanning.FormConnectToDatabase.resources
+E:\Develop projects\C#\TaskPlanning\TaskPlanning\TaskPlanning\obj\x86\Debug\TaskPlanning.FormEditData.resources
+E:\Develop projects\C#\TaskPlanning\TaskPlanning\TaskPlanning\obj\x86\Debug\TaskPlanning.Properties.Resources.resources
+E:\Develop projects\C#\TaskPlanning\TaskPlanning\TaskPlanning\obj\x86\Debug\TaskPlanning.csproj.GenerateResource.Cache
+E:\Develop projects\C#\TaskPlanning\TaskPlanning\TaskPlanning\obj\x86\Debug\TaskPlanning.exe
+E:\Develop projects\C#\TaskPlanning\TaskPlanning\TaskPlanning\obj\x86\Debug\TaskPlanning.pdb

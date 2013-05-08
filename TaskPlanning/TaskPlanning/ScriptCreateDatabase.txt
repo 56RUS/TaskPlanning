@@ -175,23 +175,3 @@ END$$
 DELIMITER ;
 
 
-
-
-----------------------------------------------
-ALTER TABLE `taskplanning`.`Tasks`
-  CHANGE `c_ID` `c_ID` INT UNSIGNED NOT NULL ,
-  CHANGE `c_StartTime` `c_StartTime` VARCHAR(50) NOT NULL ,
-  CHANGE `c_EndTime` `c_EndTime` VARCHAR(50) NULL ,
-  CHANGE `c_Project` `c_Project` VARCHAR(50) NULL ,
-  CHANGE `c_Description` `c_Description` VARCHAR(10000) NOT NULL ,
-  CHANGE `c_Result` `c_Result` VARCHAR(5000) NULL ,
-  CHANGE `c_Note` `c_Note` VARCHAR(1000) NULL ,
-  CHANGE `c_Ticket` `c_Ticket` VARCHAR(50) NULL ,
-  CHANGE `c_Owner` `c_Owner` VARCHAR(1) NULL ,
-  CHANGE `c_Reporter` `c_Reporter` VARCHAR(50) NOT NULL ,
-  CHANGE `c_CurrentStatus` `c_CurrentStatus` VARCHAR(50) NOT NULL ,
-  CHANGE `c_LastChange` `c_LastChange` VARCHAR(100) NULL ,
-  CHANGE `c_AmountChanges` `c_AmountChanges` INT NOT NULL DEFAULT 0,
-  CHANGE `c_IsLocked` `c_IsLocked` INT NOT NULL DEFAULT 0;
-
-

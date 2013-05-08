@@ -209,7 +209,7 @@ namespace TaskPlanning
             catch           // Перехватываю исключения, которые вернул оператор "myConnection.Open();" (возникают при неправильных данных для подключения к БД)
             {
                 if (currentProgramState == (int)enumProgramStates.activeConnectToDbForm)
-                    MessageBox.Show("Can't connect to database! Check state MySQL server and try again!\n", "Error!");
+                    MessageBox.Show("Can't connect to database! Check host name, name database, login, password or state MySQL server and try again!\n", "Error!");
 
                 if (currentProgramState == (int)enumProgramStates.activeMainForm)
                     MessageBox.Show("Lost connection with database! Check state MySQL server and try again!\n", "Error!");
@@ -362,7 +362,6 @@ namespace TaskPlanning
             return true;
         }
 
-
         // Получение названия столбцов для данных, которые вернул запрос к БД (столбец - поле таблицы в БД)
         public string[] getColumnsNames()
         {
@@ -495,48 +494,43 @@ namespace TaskPlanning
             return -1;          // Возвращаю -1
         }
 
-
         // idRow - ID строки; setLock - текущая блокировка (0 - снять блокировку, 1 - установить блокировку)
         public void setLockToRow (string idRow, int setLock)
         {
             insertDataToDB("UPDATE `taskplanning`.`Tasks` SET `c_IsLocked` = \"" + setLock.ToString() + "\" WHERE `c_ID` = " + idRow + ";");
         }
 
-
-        
-
-
-
+        // Из входной строки "inputString" выделяю имена owner'ов
         public List<string> parseOwnersFromString(string inputString)
         {
             List<string> owners = new List<string>();
-            string delimiterString = delimiter + "\n";
+            string delimiterString = delimiter + "\n";      // Последовательность, отделяющая owner'ов друг от друга
             int delimiterIndex = -1;
 
+            // Пока не просмотрел всю строку
             while (inputString.Length > 0)
             {
+                // Получаю позицию, с которой начинается разделитель
                 delimiterIndex = inputString.IndexOf(delimiterString);
-
+                // Добавляю owner'а (строка от начала до разделителя)
                 owners.Add(inputString.Substring(0, delimiterIndex));
-
+                // Удаляю из строки уже распознанного owner'а
                 inputString = inputString.Substring(delimiterIndex + delimiterString.Length);
             }
 
             return owners;
         }
 
-
+        // Получаю email адрес каждого owner'а ("usersNames" - строка, содержащая owner'ов)
         public List<string> getEmailAddresOnUsersNames(string usersNames)
         {
             int numberEmailInArray = -1;
             int numberNameInArray = -1;
-            List<string> listUsersNames = parseOwnersFromString(usersNames);
+            List<string> listUsersNames = parseOwnersFromString(usersNames);    // Из строки "usersNames" получаю список owner'ов
             List<string> listUsersEmailAddreses = new List<string>();
-
 
             numberNameInArray = getColumnIndexOnColumnNameInTable(tableUsers, "Name");
             numberEmailInArray = getColumnIndexOnColumnNameInTable(tableUsers, "Email");
-
             if ((numberNameInArray < 0) || (numberEmailInArray < 0))
             {
                 MessageBox.Show("File 'DBWork.cs' method 'getEmailAddresOnUserName'.\n" +
@@ -545,7 +539,7 @@ namespace TaskPlanning
                 return listUsersEmailAddreses;
             }
 
-                
+            // Для каждого owner'а из таблицы получаю адрес email и добавляю его в список "listUsersEmailAddreses"
             for (int listCount = 0; listCount < listUsersNames.Count; listCount++)
             {
                 for (int tableCount = 0; tableCount < tableUsers.listValues.Count; tableCount++)
@@ -559,7 +553,6 @@ namespace TaskPlanning
                     }
                 }
             }
-
 
             return listUsersEmailAddreses;
         }
