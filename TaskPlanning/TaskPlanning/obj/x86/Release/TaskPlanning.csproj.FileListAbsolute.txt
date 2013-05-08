@@ -1,0 +1,23 @@
+E:\C#\C# projects\TaskPlanning\TaskPlanning\obj\x86\Release\TaskPlanning.Properties.Resources.resources
+E:\C#\C# projects\TaskPlanning\TaskPlanning\obj\x86\Release\TaskPlanning.csproj.GenerateResource.Cache
+E:\C#\C# projects\TaskPlanning\TaskPlanning\bin\Release\TaskPlanning.exe
+E:\C#\C# projects\TaskPlanning\TaskPlanning\bin\Release\TaskPlanning.pdb
+E:\C#\C# projects\TaskPlanning\TaskPlanning\obj\x86\Release\TaskPlanning.exe
+E:\C#\C# projects\TaskPlanning\TaskPlanning\obj\x86\Release\TaskPlanning.pdb
+E:\C#\C# projects\TaskPlanning\TaskPlanning\obj\x86\Release\TaskPlanning.Form1.resources
+C:\c#\TaskPlanning\TaskPlanning\bin\Release\TaskPlanning.exe
+C:\c#\TaskPlanning\TaskPlanning\bin\Release\TaskPlanning.pdb
+C:\c#\TaskPlanning\TaskPlanning\obj\x86\Release\ResolveAssemblyReference.cache
+C:\c#\TaskPlanning\TaskPlanning\obj\x86\Release\TaskPlanning.Form1.resources
+C:\c#\TaskPlanning\TaskPlanning\obj\x86\Release\TaskPlanning.Properties.Resources.resources
+C:\c#\TaskPlanning\TaskPlanning\obj\x86\Release\GenerateResource.read.1.tlog
+C:\c#\TaskPlanning\TaskPlanning\obj\x86\Release\GenerateResource.write.1.tlog
+C:\c#\TaskPlanning\TaskPlanning\obj\x86\Release\TaskPlanning.exe
+C:\c#\TaskPlanning\TaskPlanning\obj\x86\Release\TaskPlanning.pdb
+C:\c#\TaskPlanning\TaskPlanning\obj\x86\Release\TaskPlanning.FormEditData.resources
+E:\C#\C# projects\TaskPlanning\TaskPlanning\obj\x86\Release\TaskPlanning.FormEditData.resources
+E:\C#\C# projects\TaskPlanning\TaskPlanning\obj\x86\Release\TaskPlanning.csprojResolveAssemblyReference.cache
+C:\c#\TaskPlanning\TaskPlanning\obj\x86\Release\GenerateResource-ResGen.read.1.tlog
+C:\c#\TaskPlanning\TaskPlanning\obj\x86\Release\GenerateResource-ResGen.write.1.tlog
+E:\C#\C# projects\TaskPlanning\TaskPlanning\obj\x86\Release\TaskPlanning.FormConnectToDatabase.resources
+C:\c#\TaskPlanning\TaskPlanning\obj\x86\Release\TaskPlanning.FormConnectToDatabase.resources

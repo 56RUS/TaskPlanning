@@ -1,0 +1,197 @@
+﻿CREATE SCHEMA `TaskPlanning` DEFAULT CHARACTER SET utf8 ;
+
+USE `TaskPlanning`;
+
+CREATE  TABLE `TaskPlanning`.`Users` (
+  `c_ID` VARCHAR(100) NOT NULL,
+  `c_Name` VARCHAR(50) NOT NULL ,
+  `c_Group` VARCHAR(50) NOT NULL ,
+  `c_Email` VARCHAR(100) NULL ,
+  PRIMARY KEY (`c_ID`) );
+
+CREATE  TABLE `TaskPlanning`.`TaskStatus` (
+  `c_ID` VARCHAR(100) NOT NULL,
+  `c_Name` VARCHAR(50) NOT NULL ,
+  PRIMARY KEY (`c_ID`) );
+
+
+CREATE  TABLE `TaskPlanning`.`Projects` (
+  `c_ID` VARCHAR(100) NOT NULL,
+  `c_Name` VARCHAR(50) NOT NULL ,
+  PRIMARY KEY (`c_ID`) );
+
+
+CREATE  TABLE `taskplanning`.`ownersOfTask` (
+  `c_ID` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `c_TaskID` VARCHAR(50) NOT NULL ,
+  `c_OwnerID` VARCHAR(50) NOT NULL ,
+    PRIMARY KEY (`c_ID`) );
+
+
+CREATE  TABLE `taskplanning`.`Tasks` (
+  `c_ID` INT UNSIGNED NOT NULL ,
+  `c_StartTime` VARCHAR(50) NOT NULL ,
+  `c_EndTime` VARCHAR(50) NULL ,
+  `c_Project` VARCHAR(50) NULL ,
+  `c_Description` VARCHAR(10000) NOT NULL ,
+  `c_Result` VARCHAR(5000) NULL ,
+  `c_Note` VARCHAR(1000) NULL ,
+  `c_Ticket` VARCHAR(50) NULL ,
+  `c_Owner` VARCHAR(1) NULL ,
+  `c_Reporter` VARCHAR(50) NOT NULL ,
+  `c_CurrentStatus` VARCHAR(50) NOT NULL ,
+  `c_LastChange` VARCHAR(100) NULL ,
+  `c_AmountChanges` INT NOT NULL DEFAULT 0,
+  `c_IsLocked` INT NOT NULL DEFAULT 0,
+  PRIMARY KEY (`c_ID`) );
+
+
+INSERT INTO `taskplanning`.`users` (`c_ID`, `c_Name`, `c_Group`, `c_Email`) VALUES ('r.hakimov', 'Hakimov Ruslan', 'Administrator', '');
+INSERT INTO `taskplanning`.`users` (`c_ID`, `c_Name`, `c_Group`, `c_Email`) VALUES ('b.boichenko', 'Boichenko Boris', 'Administrator', '');
+INSERT INTO `taskplanning`.`users` (`c_ID`, `c_Name`, `c_Group`, `c_Email`) VALUES ('s.filosofov', 'Filosofov Sergey', 'User', '');
+INSERT INTO `taskplanning`.`users` (`c_ID`, `c_Name`, `c_Group`, `c_Email`) VALUES ('guest', 'Guest', 'Guest', '');
+
+INSERT INTO `taskplanning`.`taskstatus` (`c_ID`, `c_Name`) VALUES ('opened', 'Opened');
+INSERT INTO `taskplanning`.`taskstatus` (`c_ID`, `c_Name`) VALUES ('closed', 'Closed');
+
+INSERT INTO `taskplanning`.`projects` (`c_ID`, `c_Name`) VALUES ('deskgames', 'Desk Games');
+INSERT INTO `taskplanning`.`projects` (`c_ID`, `c_Name`) VALUES ('viennagames', 'Vienna Games');
+INSERT INTO `taskplanning`.`projects` (`c_ID`, `c_Name`) VALUES ('spanishproject', 'Spanish Project');
+
+
+DELIMITER $$
+CREATE PROCEDURE `addDataToTableTasks`(
+_startTime VARCHAR(50), _endTime VARCHAR(50), _project VARCHAR(50), _description VARCHAR(1024), _result VARCHAR(1024),
+_note VARCHAR(1024), _ticket VARCHAR(50), _owner VARCHAR(1000), _reporter VARCHAR(50), _currentStatus VARCHAR(50), _lastChange VARCHAR(100) )
+BEGIN
+	DECLARE projectID VARCHAR(50) DEFAULT '';
+	DECLARE ownerID VARCHAR(50) DEFAULT '';
+	DECLARE reporterID VARCHAR(50) DEFAULT '';
+	DECLARE currentStatusID VARCHAR(50) DEFAULT '';
+	DECLARE _substring VARCHAR(50) DEFAULT '';
+	DECLARE _id INT DEFAULT 0;
+
+	START TRANSACTION;
+		SET _id = (SELECT (MAX(c_id) + 1) FROM `TaskPlanning`.`tasks` );
+
+		IF (_id IS NULL) THEN
+			SET _id = 0;
+		END IF;
+
+		SET projectID = (SELECT c_id FROM `TaskPlanning`.`projects` WHERE c_name = _project);
+		SET reporterID = (SELECT c_id FROM `TaskPlanning`.`users` WHERE c_name = _reporter);
+		SET currentStatusID = (SELECT c_id FROM `TaskPlanning`.`taskStatus` WHERE c_name = _currentStatus);
+
+		SET _substring = (SELECT SUBSTRING_INDEX(_owner, ";", 1));
+		WHILE (_substring != '') DO
+		SET ownerID = (SELECT c_id FROM `TaskPlanning`.`users` WHERE c_name = _substring);
+			INSERT INTO `TaskPlanning`.`ownersoftask` (c_TaskID, c_OwnerID) VALUES (_id, ownerID);
+			SET _owner = (SELECT SUBSTRING(_owner, (POSITION(";" IN _owner) + 2)));
+			SET _substring = (SELECT SUBSTRING_INDEX(_owner, ";", 1));
+		END WHILE;
+
+		INSERT INTO `TaskPlanning`.`tasks` (c_ID, c_StartTime, c_EndTime, c_Project, c_Description, c_Result, c_Note, c_Ticket, c_Owner, c_Reporter, c_CurrentStatus, c_LastChange, c_AmountChanges, c_IsLocked)
+		VALUES (_id, _startTime, _endTime, projectID, _description, _result, _note, _ticket, "", reporterID, currentStatusID, _lastChange, 1, 0);
+	COMMIT;
+END$$
+DELIMITER ;
+
+
+DELIMITER $$
+CREATE PROCEDURE `updateDataInTableTasks`(
+_id VARCHAR(100), _startTime VARCHAR(50), _endTime VARCHAR(50), _project VARCHAR(50), _description VARCHAR(1024), _result VARCHAR(1024),
+_note VARCHAR(1024), _ticket VARCHAR(50), _newOwners VARCHAR(1000), _deletedOwners VARCHAR(1000), _reporter VARCHAR(50), _currentStatus VARCHAR(50), _lastChange VARCHAR(100) )
+BEGIN
+	DECLARE projectID VARCHAR(50) DEFAULT '';
+	DECLARE ownerID VARCHAR(50) DEFAULT '';
+	DECLARE reporterID VARCHAR(50) DEFAULT '';
+	DECLARE currentStatusID VARCHAR(50) DEFAULT '';
+	DECLARE _substring VARCHAR(50) DEFAULT '';
+
+	START TRANSACTION;
+		SET projectID = (SELECT c_id FROM `TaskPlanning`.`projects` WHERE c_name = _project);
+		SET ownerID = (SELECT c_id FROM `TaskPlanning`.`users` WHERE c_name = _newOwners);
+		SET reporterID = (SELECT c_id FROM `TaskPlanning`.`users` WHERE c_name = _reporter);
+		SET currentStatusID = (SELECT c_id FROM `TaskPlanning`.`taskStatus` WHERE c_name = _currentStatus);
+
+		SET _substring = (SELECT SUBSTRING_INDEX(_newOwners, ";", 1));
+		WHILE (_substring != '') DO
+			SET ownerID = (SELECT c_id FROM `TaskPlanning`.`users` WHERE c_name = _substring);
+			INSERT INTO `TaskPlanning`.`ownersoftask` (c_TaskID, c_OwnerID) VALUES (_id, ownerID);
+			SET _newOwners = (SELECT SUBSTRING(_newOwners, (POSITION(";" IN _newOwners) + 2)));
+			SET _substring = (SELECT SUBSTRING_INDEX(_newOwners, ";", 1));
+		END WHILE;
+
+		SET _substring = (SELECT SUBSTRING_INDEX(_deletedOwners, ";", 1));
+		WHILE (_substring != '') DO
+			SET ownerID = (SELECT c_id FROM `TaskPlanning`.`users` WHERE c_name = _substring);
+			DELETE FROM `TaskPlanning`.`ownersoftask` WHERE c_TaskID = _id AND c_OwnerID = ownerID;
+			SET _deletedOwners = (SELECT SUBSTRING(_deletedOwners, (POSITION(";" IN _deletedOwners) + 2)));
+			SET _substring = (SELECT SUBSTRING_INDEX(_deletedOwners, ";", 1));
+		END WHILE;
+
+		UPDATE `TaskPlanning`.`tasks`
+			SET c_StartTime = _startTime,
+				c_EndTime = _endTime,
+				c_Project = projectID,
+				c_Description = _description,
+				c_Result = _result,
+				c_Note = _note,
+				c_Ticket = _ticket,
+				c_Reporter = reporterID,
+				c_CurrentStatus = currentStatusID,
+				c_LastChange = _lastChange,
+				c_AmountChanges = (c_AmountChanges + 1),
+				c_IsLocked = 0
+			WHERE c_id = _id;
+	COMMIT;
+END$$
+DELIMITER ;
+
+
+DELIMITER $$
+CREATE PROCEDURE `deleteDataFromTableTasks`( _id VARCHAR(100) )
+BEGIN
+	START TRANSACTION;
+		DELETE FROM `TaskPlanning`.`tasks`
+		WHERE `TaskPlanning`.`tasks`.`c_id` = _id;
+
+		DELETE FROM `TaskPlanning`.`ownersoftask`
+		WHERE `TaskPlanning`.`ownersoftask`.`c_taskid` = _id;
+	COMMIT;
+END$$
+DELIMITER ;
+
+
+DELIMITER $$
+CREATE PROCEDURE `getOwnersOnTaskID`( _taskID VARCHAR(50))
+BEGIN
+	START TRANSACTION;
+		SELECT c_name FROM `TaskPlanning`.`users`
+		JOIN `TaskPlanning`.`ownersoftask` ON `TaskPlanning`.`users`.`c_ID` = `TaskPlanning`.`ownersoftask`.`c_OwnerID`
+		WHERE `TaskPlanning`.`ownersoftask`.`c_TaskID` = _taskID;
+	COMMIT;
+END$$
+DELIMITER ;
+
+
+
+
+----------------------------------------------
+ALTER TABLE `taskplanning`.`Tasks`
+  CHANGE `c_ID` `c_ID` INT UNSIGNED NOT NULL ,
+  CHANGE `c_StartTime` `c_StartTime` VARCHAR(50) NOT NULL ,
+  CHANGE `c_EndTime` `c_EndTime` VARCHAR(50) NULL ,
+  CHANGE `c_Project` `c_Project` VARCHAR(50) NULL ,
+  CHANGE `c_Description` `c_Description` VARCHAR(10000) NOT NULL ,
+  CHANGE `c_Result` `c_Result` VARCHAR(5000) NULL ,
+  CHANGE `c_Note` `c_Note` VARCHAR(1000) NULL ,
+  CHANGE `c_Ticket` `c_Ticket` VARCHAR(50) NULL ,
+  CHANGE `c_Owner` `c_Owner` VARCHAR(1) NULL ,
+  CHANGE `c_Reporter` `c_Reporter` VARCHAR(50) NOT NULL ,
+  CHANGE `c_CurrentStatus` `c_CurrentStatus` VARCHAR(50) NOT NULL ,
+  CHANGE `c_LastChange` `c_LastChange` VARCHAR(100) NULL ,
+  CHANGE `c_AmountChanges` `c_AmountChanges` INT NOT NULL DEFAULT 0,
+  CHANGE `c_IsLocked` `c_IsLocked` INT NOT NULL DEFAULT 0;
+
+
