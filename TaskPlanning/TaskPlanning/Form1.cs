@@ -398,6 +398,7 @@ namespace TaskPlanning
             {
                 if (checkCanUserAddOrEditData((int)enumCurrentOperations.editSelectedTask))
                 {
+                    /*
                     try
                     {
                         selectedRow = dataGridViewDataFromDB.CurrentRow.Index;
@@ -407,6 +408,14 @@ namespace TaskPlanning
                         MessageBox.Show("File 'Form1.cs' method 'buttonDeleteSelectedRow_Click'.\nCan't get number of selected row!" + ex.Message, "Runtime error!");
                         return;
                     }
+                    */
+
+
+                    // Если в базе еще нет ни одной записи
+                    if (dataGridViewDataFromDB.Rows.Count == 0)
+                        return;
+                    else
+                        selectedRow = dataGridViewDataFromDB.CurrentRow.Index;  // Получаю индекс выбранной строки
 
 
                     isCanEditRow = isCanEditSelectedRow(selectedRow);
@@ -794,6 +803,7 @@ namespace TaskPlanning
             string[] rowValues;
             int numberRow = -1;
             //string taskId = "";
+            int numberColumnIsLocked = -1;
 
             string taskState = "";
 
@@ -863,6 +873,7 @@ namespace TaskPlanning
 
 
                 /////////////////////////////////////////////
+                /*
                 try
                 {
                     dataGridViewDataFromDB.Columns["IsLocked"].ReadOnly = true;
@@ -872,6 +883,23 @@ namespace TaskPlanning
                 {
                     MessageBox.Show("File 'Form1.cs' method 'setDataFromDbToDataGrid'.\n" + "Can't found column with name 'IsLocked' in current table.\n\n" + ex.Message, "Runtime error!");
                 }
+                */
+
+
+
+                numberColumnIsLocked = getColumnNumberOnColumnNameInDataGrid(myDB.nameColumnsMainTable[(int)enumNamesColumnsMainTable.IsLocked]);
+
+                if (numberColumnIsLocked >= 0)
+                {
+                    dataGridViewDataFromDB.Columns[numberColumnIsLocked].ReadOnly = true;
+                    dataGridViewDataFromDB.Columns[numberColumnIsLocked].Visible = false;
+                }
+                else
+                {
+                    MessageBox.Show("File 'Form1.cs' method 'setDataFromDbToDataGrid'.\n'numberColumnIsLocked' = " + numberColumnIsLocked.ToString(), "Runtime error!");
+                    return;
+                }
+
                 //
 
                 if (!myDB.currentDBUserName.group.Equals(myDB.nameGuestGroup))
@@ -898,6 +926,12 @@ namespace TaskPlanning
                     {
                         // Выбираю столбец, по которому будут сортироваться данные и тип сортировки
                         dataGridViewDataFromDB.Sort(dataGridViewDataFromDB.Columns["StartTime"], ListSortDirection.Descending);
+
+                        buttonExportData.Enabled = true;
+                    }
+                    else
+                    {
+                        buttonExportData.Enabled = false;
                     }
 
                     buttonAddNewRow.Enabled = false;
@@ -929,7 +963,7 @@ namespace TaskPlanning
 
             if ((numberColumnId < 0) || (numberColumnOwner < 0))
             {
-                MessageBox.Show("File 'Form1.cs' method 'addNewOrEditRow'.\n'numberColumnId' = " + numberColumnId.ToString() +
+                MessageBox.Show("File 'Form1.cs' method 'setOwnersToTask'.\n'numberColumnId' = " + numberColumnId.ToString() +
                                         " ;'numberColumnOwner' = " + numberColumnOwner.ToString(), "Runtime error!");
                 return;
             }
@@ -999,6 +1033,9 @@ namespace TaskPlanning
             }
 
 
+
+
+            /*
             try
             {
                 numberColumn = dataGridViewDataFromDB.Columns[myDB.nameColumnsGetNameOnID[columnIndex]].Index;
@@ -1009,6 +1046,20 @@ namespace TaskPlanning
 
                 return;
             }
+            */
+
+
+            numberColumn = getColumnNumberOnColumnNameInDataGrid(myDB.nameColumnsGetNameOnID[columnIndex]);
+
+            if (numberColumn < 0)
+            {
+                MessageBox.Show("File 'Form1.cs' method 'setNameOnId'.\n'numberColumn' = " + numberColumn.ToString(), "Runtime error!");
+                return;
+            }
+            
+
+
+
 
             if ((currentTable.columnNames != null) && (currentTable.columnNames.Length > 0))
             {
@@ -1193,6 +1244,7 @@ namespace TaskPlanning
         {
             int number = -1;
 
+            /*
             try
             {
                 number = dataGridViewDataFromDB.Columns[name].Index;
@@ -1201,7 +1253,12 @@ namespace TaskPlanning
             {
                 MessageBox.Show("File 'Form1.cs' method 'getColumnNumberOnColumnName'.\n" + "Can't found column with name '" + name + "' in DataGrid.\n\n" + ex.Message, "Runtime error!");
             }
+            */
 
+            if (dataGridViewDataFromDB.Columns.Contains(name))
+                number = dataGridViewDataFromDB.Columns[name].Index;
+            else
+                MessageBox.Show("File 'Form1.cs' method 'getColumnNumberOnColumnName'.\n" + "Can't found column with name '" + name + "' in DataGrid.", "Runtime error!");
 
             return number;
         }
