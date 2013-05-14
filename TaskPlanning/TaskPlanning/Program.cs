@@ -16,13 +16,13 @@ namespace TaskPlanning
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-          //  try
+            try
             {
                 Application.Run(new Form1());
             }
-         //   catch (Exception ex)
+            catch (Exception ex)
             {
-         //       MessageBox.Show(ex.Message, "Program runtime error!");
+                MessageBox.Show(ex.Message, "Program runtime error!");
             }
         }
     }

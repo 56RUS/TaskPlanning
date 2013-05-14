@@ -25,16 +25,10 @@ namespace TaskPlanning
             myRegistryKey = myRegistryKey.CreateSubKey("TaskPlanningUserSettings\\ConnectToDBSettings");
         }
 
-        // Обработчик нажатия кнопки "Connect"
-        private void buttonDBConnect_Click(object sender, EventArgs e)
+        // Инициализирую указатель на класс для работы с БД
+        public void initialiseDB(workWithDbClass DB)
         {
-            connectToDb();      // Подключаюсь к БД
-        }
-
-        // Обработчик нажатия кнопки "Cancel"
-        private void buttonCancel_Click(object sender, EventArgs e)
-        {
-            DialogResult = DialogResult.Cancel;
+            myDBConnect = DB;
         }
 
         // Метод, выполняющий подключение к БД
@@ -69,12 +63,6 @@ namespace TaskPlanning
             {
                 MessageBox.Show("Connection is already established.", "Connect to database!");
             }
-        }
-
-        // Инициализирую указатель на класс для работы с БД
-        public void initialiseDB(workWithDbClass DB)
-        {
-            myDBConnect = DB;
         }
 
         // Читаю из реестра настройки подключения к БД
@@ -120,6 +108,18 @@ namespace TaskPlanning
             {
                 MessageBox.Show("Could not save settings!\n\n" + ex.Message, "Error saving settings!");
             }
+        }
+
+        // Обработчик нажатия кнопки "Connect"
+        private void buttonDBConnect_Click(object sender, EventArgs e)
+        {
+            connectToDb();      // Подключаюсь к БД
+        }
+
+        // Обработчик нажатия кнопки "Cancel"
+        private void buttonCancel_Click(object sender, EventArgs e)
+        {
+            DialogResult = DialogResult.Cancel;
         }
 
         // Событие, возникающие при отображении формы

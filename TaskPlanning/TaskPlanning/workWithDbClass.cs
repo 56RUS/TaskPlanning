@@ -173,7 +173,6 @@ namespace TaskPlanning
             nameColumnsMainTable[(int)enumNamesColumnsMainTable.IsLocked] = "IsLocked";
         }
 
-
         // Подключение к БД
         public void connectToDB()
         {
