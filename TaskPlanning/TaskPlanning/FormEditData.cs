@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
@@ -383,7 +382,7 @@ namespace TaskPlanning
             }
         }
 
-        // В DataGrid получаю индекс столбца по его имени (-1 - сьолбец с указанным именем отсутсвует в DataGrid)
+        // В DataGrid получаю индекс столбца по его имени (-1 - столбец с указанным именем отсутсвует в DataGrid)
         private int getColumnNumberOnColumnNameInDataGrid(string name)
         {
             int number = -1;
@@ -752,6 +751,5 @@ namespace TaskPlanning
             ownerListBox.Location = location;
             ownerListBox.Invalidate();              // Перерисовываю ListBox
         }
-        
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-//using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
@@ -136,6 +135,7 @@ namespace TaskPlanning
             currentDBUserName.fullName = "";
             currentDBUserName.group = "";
 
+            // Устанавливаю текущее состояние программы
             currentProgramState = (int)enumProgramStates.activeConnectToDbForm;
 
             tableUsers = new structTable();

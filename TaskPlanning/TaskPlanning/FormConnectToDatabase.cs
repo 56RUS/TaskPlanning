@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using Microsoft.Win32;
@@ -134,6 +133,10 @@ namespace TaskPlanning
             // Если нажата клавиша "Enter" (на любом элементе формы), то пытаюсь подключиться к БД
             if (e.KeyChar == (char)Keys.Enter)
                 connectToDb();
+
+            // Если нажата клавиша "Esc", то закрываю форму
+            if (e.KeyChar == (char)Keys.Escape)
+                DialogResult = DialogResult.Cancel;
         }
     }
 }

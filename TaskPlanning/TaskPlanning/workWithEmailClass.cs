@@ -1,5 +1,4 @@
 ﻿using System;
-//using System.Linq;
 using System.Text;
 using System.Net;
 using System.Net.Mail;
@@ -57,7 +56,6 @@ namespace TaskPlanning
             isLockedSendMessage = (int)enumStatesLockedSendMessage.unlocked;
         }
 
-
         // Добавление письма в очередь отправляемых писем
         public void addMessageToSendQueue(List<string> receiversEmailAddres, string subject, string message)
         {
@@ -73,7 +71,6 @@ namespace TaskPlanning
 
             listEmailMessages.Add(prepareEmailMessage);                                 // Добавляю письмо в список
         }
-
 
         // Отправление сообщений
         public void sendMessage()

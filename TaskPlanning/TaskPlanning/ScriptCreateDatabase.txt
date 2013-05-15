@@ -46,17 +46,17 @@ CREATE  TABLE `taskplanning`.`Tasks` (
   PRIMARY KEY (`c_ID`) );
 
 
-INSERT INTO `taskplanning`.`users` (`c_ID`, `c_Name`, `c_Group`, `c_Email`) VALUES ('r.hakimov', 'Hakimov Ruslan', 'Administrator', '');
-INSERT INTO `taskplanning`.`users` (`c_ID`, `c_Name`, `c_Group`, `c_Email`) VALUES ('b.boichenko', 'Boichenko Boris', 'Administrator', '');
-INSERT INTO `taskplanning`.`users` (`c_ID`, `c_Name`, `c_Group`, `c_Email`) VALUES ('s.filosofov', 'Filosofov Sergey', 'User', '');
+INSERT INTO `taskplanning`.`users` (`c_ID`, `c_Name`, `c_Group`, `c_Email`) VALUES ('name1', 'Full Name1', 'Administrator', '');
+INSERT INTO `taskplanning`.`users` (`c_ID`, `c_Name`, `c_Group`, `c_Email`) VALUES ('name2', 'Full Name2', 'Administrator', '');
+INSERT INTO `taskplanning`.`users` (`c_ID`, `c_Name`, `c_Group`, `c_Email`) VALUES ('name3', 'Full Name3', 'User', '');
 INSERT INTO `taskplanning`.`users` (`c_ID`, `c_Name`, `c_Group`, `c_Email`) VALUES ('guest', 'Guest', 'Guest', '');
 
 INSERT INTO `taskplanning`.`taskstatus` (`c_ID`, `c_Name`) VALUES ('opened', 'Opened');
 INSERT INTO `taskplanning`.`taskstatus` (`c_ID`, `c_Name`) VALUES ('closed', 'Closed');
 
-INSERT INTO `taskplanning`.`projects` (`c_ID`, `c_Name`) VALUES ('deskgames', 'Desk Games');
-INSERT INTO `taskplanning`.`projects` (`c_ID`, `c_Name`) VALUES ('viennagames', 'Vienna Games');
-INSERT INTO `taskplanning`.`projects` (`c_ID`, `c_Name`) VALUES ('spanishproject', 'Spanish Project');
+INSERT INTO `taskplanning`.`projects` (`c_ID`, `c_Name`) VALUES ('project1', 'Fullname project1');
+INSERT INTO `taskplanning`.`projects` (`c_ID`, `c_Name`) VALUES ('project2', 'Fullname project2');
+INSERT INTO `taskplanning`.`projects` (`c_ID`, `c_Name`) VALUES ('project3', 'Fullname project3');
 
 
 DELIMITER $$
